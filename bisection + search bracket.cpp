@@ -1,40 +1,50 @@
-
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-float f(float x){
-    return x * x - 4 * x - 10;
-    //return exp(x) - 3 * x;
+vector<double> poly = {1.0, -4.0, -10.0};
+
+double search_bracket(){
+    return fabs(sqrt(fabs(pow((poly[1] / poly[0]), 2) - 2 * (poly[2] / poly[0]))));
 }
 
-int main(){
-    float x0, x1, x2;
-    cout << "pls enter the constants of xn, xn-1, xn-2" << endl;
-    cin >> x0 >> x1 >> x2;
-    float b = sqrt( pow((x1 / x0), 2) - 2 * (x2  / x0) );
-    float a = -b;
-    float mid;
+double f(double x){    // using horner
+    int n = poly.size();
+    double result = poly[0]; // Initialize result
 
-    cout << a << endl;
+    // Evaluate value of polynomial using Horner's method
+    for (int i=1; i<n; i++)
+        result = result*x + poly[i];
 
-    if(f(a) * f(b) < 0){
-        while(abs(b - a) > 0.01){
-            mid = (a + b) / 2;
-            if(f(mid) == 0){
-                cout << mid;
-                break;
-            }
+    return result;
+}
 
-            if(f(mid) * f(a) < 0){
-                b = mid;
+int main() {
+    double a, b, dx, da, mid;
+
+    a =  search_bracket();// search bracket
+    b = -a;
+
+    cout << "please input incremental interval: ";
+    cin >> dx; // step size
+
+    da = a - dx;
+
+    while (a > b) { // FIX: loop condition was wrong
+        if (f(a) * f(da) < 0) {
+            while (fabs(a - da) > 0.00001) {
+                mid = (a + da) / 2;
+                if (fabs(f(mid)) < 1e-9) { // FIX: avoid double equality check
+                    break;
+                }
+                if (f(mid) * f(a) < 0) {
+                    da = mid;
+                } else {
+                    a = mid;
+                }
             }
-            else{
-                a = mid;
-            }
+            cout << "Root: " << mid << endl;
         }
-        cout << mid;
-    }
-    else{
-        cout << "No root between intervals";
+        a = da;     // FIX: move interval forward
+        da = a - dx;
     }
 }
