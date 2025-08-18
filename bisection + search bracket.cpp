@@ -18,25 +18,34 @@ double f(double x){
     return result;
 }
 
-vector<int> decartes(){     // determines the maximum possible number of positive real roots
+void decartes(){     // determines the maximum possible number of positive real roots
     int c = 0;
     int n = poly.size();
     for(int i=0; i<n - 1; i++){
-        if(poly[i]* poly[i - 1] < 0){
+        if(poly[i]* poly[i + 1] < 0){
             c++;
         }
     }
-    while(c >  0){
+    while(c > 0){
         cout << c << " ";
         c -= 2;
     }
 }
 
 int main() {
+    int iter = 1, c = 1;
     double a, b, dx, da, mid, e;
+
+    cout << "maximum possible real roots are: ";
+    decartes();
+    cout << endl;
 
     a =  search_bracket();// search bracket
     b = -a;
+
+    cout << "Search Bracket: ";
+    cout << a << " " << b << endl;
+    cout << endl;
 
     cout << "please input incremental interval: ";
     cin >> dx; // step size
@@ -46,12 +55,14 @@ int main() {
 
     cout << fixed << setprecision(6);
 
-
     while (a > b) {
+        cout << "Converging to root: " << c << endl;
+        cout << "Iter" << setw(6) << "x0" << setw(6) << "f(x0)" << setw(6) << "Error" << endl;
         if (f(a) * f(da) < 0) {
             while (e > 0.00001) {
                 e = fabs((a - da) / da);
                 mid = (a + da) / 2;
+                cout << iter << setw(6) << mid << setw(6) << f(mid) << setw(6) << e << endl;
                 if (fabs(f(mid)) < 1e-9) {
                     break;
                 }
@@ -62,6 +73,7 @@ int main() {
                 }
             }
             cout << "Root: " << mid << endl;
+            c++;
         }
         a = da;
         da = a - dx;
