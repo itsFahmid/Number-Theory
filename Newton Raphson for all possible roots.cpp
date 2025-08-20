@@ -5,8 +5,29 @@ vector<int> coeff = {1 -7, 12, 4, 16};
 
 void decartes_for_neg(){
     int c = 0, n = coeff.size();
-    for(int i = 0, i < n - 1, i++){
-        if(coeff[i]*coeff[i + 1] > 0){
+    vector<double> neg_coeff(n);
+    for(int i=0; i<n; i++){
+        if(i % 2 == 1){
+            neg_coeff[i] = -coeff[i];
+        }
+        else{
+            neg_coeff[i] = coeff[i];
+        }
+    }
+    for(int i = 0; i < n - 1; i++){
+        if(neg_coeff[i]*neg_coeff[i + 1] < 0){
+            c++;
+        }
+    }
+    while(c > 0){
+        cout << c << " ";
+        c-=2;
+    }
+}
+void decartes_for_pos(){
+    int c = 0, n = coeff.size();
+    for(int i = 0; i < n - 1; i++){
+        if(coeff[i]*coeff[i + 1] < 0){
             c++;
         }
     }
@@ -17,21 +38,41 @@ void decartes_for_neg(){
 }
 
 double f(double x){
-    n = coeff.size();
+    int n = coeff.size();
     double r = coeff[0];
-    for(int i=0, i< n; i++){
+    for(int i=0; i< n; i++){
         r = r * x + coeff[i];
     }
     return r;
 }
 
 double df(double x){
-    n = coeff.size() - 1;
+    int n = coeff.size() - 1;
     double r = coeff[0];
-    for(int i=0, i< n; i++){
+    for(int i=0; i< n; i++){
         r = r * x * (n - i + 1)+ coeff[i];
     }
     return r;
+}
+
+double cauchy(){
+    int n = coeff.size();
+    double r, maxi = -1e9;
+    for(int i=1; i<n; i++){
+        if(maxi < fabs(coeff[i]) ){
+            maxi = fabs(coeff[i]);
+        }
+    }
+    return (1 + (coeff[0] / maxi) );
+}
+
+void synthetic_division(){
+    int n = coeff.size();
+    vector<double> changed_coeff(n - 1);
+
+    for(int i=0; i<n; i++){
+
+    }
 }
 
 double Search_Bracket(){
