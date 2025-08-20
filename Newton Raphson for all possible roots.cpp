@@ -84,8 +84,21 @@ double newton_raphson(double x){
 }
 
 int main(){
-    int iter = 1, rootno = 1;
-    double x2, x1, x0;
+    int iter = 1, rootno = 1, n = coeff.size(), c = 1;
+    double x2, x1, x0, error, tolerance = 0.00001;
 
+    double a = Search_Bracket(), b = -a;
+
+    while(n > 1){
+        error = 100;    // just an initial guess;
+
+        cout << "converging for root no: " << c << endl << endl;
+        while(error > tolerance){
+            x2 = newton_raphson(x1);
+        }
+
+        n--;
+        c++;
+    }
 
 }
