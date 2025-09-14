@@ -2,7 +2,7 @@
 using namespace std;
 
 // Function to print the matrix for visualization
-void printMatrix(const vector<vector<double>>& matrix, int n) {
+void printMatrix(vector<vector<double>>matrix, int n) {
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n + 1; ++j) {
             cout << setw(12) << fixed << setprecision(4) << matrix[i][j] << " ";
@@ -44,7 +44,7 @@ int main() {
         // Find the row with the largest element in the current column (i).
         int max_row = i;
         for (int k = i + 1; k < n; ++k) {
-            if (abs(a[k][i]) > abs(a[max_row][i])) {
+            if (fabs(a[k][i]) > fabs(a[max_row][i])) {
                 max_row = k;
             }
         }
